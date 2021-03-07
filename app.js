@@ -1,10 +1,23 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
-const usersRoutes = require('./routes/users');
 const tasksRoutes = require('./routes/tasks');
 
-app.use('/users', usersRoutes);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use((req,res,next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Header', 
+    'Origin, Content-Type, Accept, Authorization');
+if(req.method === 'OPTIONS'){
+    res.header('Access-Control-Allow-Methods', 'PUT', 'POST', 'DELETE', 'GET')
+    return res.status(200).send({});
+}
+
+});
+
 app.use('/tasks', tasksRoutes);
 
 app.use((req, res, next) => {

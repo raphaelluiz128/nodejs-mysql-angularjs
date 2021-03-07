@@ -1,27 +1,11 @@
 const express =  require('express');
 const router = express.Router();
+const tasksController = require('../controllers/tasksController');
 
-router.get('/', (req, res, next) => {
-    res.status(200).send({
-        
-    });
-});
+router.get('/', tasksController.get);
+router.post('/', tasksController.create);
+router.put('/:id', tasksController.update);
+//router.put('/', tasksController.update);
 
-router.post('/', (req, res, next) => {
-    const task = {
-        user: req.body.user,
-        email: req.body.email,
-        description: req.body.description,
-        status: req.body.status,   
-    };
-    res.status(201).send({   
-    });
-});
-
-router.put('/:id', (req, res, next) => {
-    res.status(201).send({
-        
-    });
-});
 
 module.exports = router;

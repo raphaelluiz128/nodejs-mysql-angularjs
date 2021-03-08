@@ -7,6 +7,8 @@ Use npm start to start the api server
 ## Front-end
 https://github.com/raphaelluiz128/nodejs-mysql-angularjs-front
 
+## example video
+https://www.loom.com/share/50a14fb333424df4af99f59e103ba43a
 ## MYSQL SCHEMA
 
 

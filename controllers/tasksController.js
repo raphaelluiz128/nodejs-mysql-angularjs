@@ -2,17 +2,17 @@ const mysql = require('../mysql').pool;
 
 exports.create = async (req, res, next) => {
     try {
-        console.log('entrou')
     const task = {
         responsible: req.body.responsible,
         responsibleEmail: req.body.responsibleEmail,
         description: req.body.description,
+        comeToPending: req.body.comeToPending,
         status: req.body.status,   
     };
-   
+   console.log(task)
     mysql.getConnection((error, conn) => {
-        conn.query('INSERT INTO tasks (responsible, responsibleEmail, description, status, comeToPending) values (?,?,?,?)',
-         [task.responsible,task.responsibleEmail,task.description,task.status, 0], (error, result, field) => {
+        conn.query('INSERT INTO tasks (responsible, responsibleEmail, description, status, comeToPending) values (?,?,?,?,?)',
+         [task.responsible,task.responsibleEmail,task.description,task.status, task.comeToPending], (error, result, field) => {
              conn.release();
              if(error){
                 return res.status(500).send({
@@ -21,7 +21,7 @@ exports.create = async (req, res, next) => {
                  });
              }
                 let dataTask = {id: result.insertId, responsibleEmail: task.responsibleEmail, 
-                    responsible: task.responsible, description: task.description, status: task.status, comeToPeding: 0 };
+                    responsible: task.responsible, description: task.description, status: task.status, comeToPending: task.comeToPending };
                 return res.status(201).send({  
                  message: 'Tarefa criada com sucesso',
                  idTask: result.insertId,
@@ -40,16 +40,16 @@ exports.create = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     try {
     const task = {
-        responsible: req.body.name,
-        responsibleEmail: req.body.email,
+        responsible: req.body.responsible,
+        responsibleEmail: req.body.responsibleEmail,
         description: req.body.description,
         status: req.body.status, 
-        comeToPeding: req.body.comeToPeding  
+        comeToPending: req.body.comeToPending  
     };
    
     mysql.getConnection((error, conn) => {
-        conn.query('UPDATE tasks SET responsible = ?, responsibleEmail = ?, description = ?, status = ?, comeToPeding = ? where id = ?',
-         [task.responsible,task.responsibleEmail,task.description,task.status, task.comeToPeding, req.params.id], (error, result, field) => {
+        conn.query('UPDATE tasks SET responsible = ?, responsibleEmail = ?, description = ?, status = ?, comeToPending = ? where id = ?',
+         [task.responsible,task.responsibleEmail,task.description,task.status, task.comeToPending, req.params.id], (error, result, field) => {
              conn.release();
              if(error){
                 return res.status(500).send({
